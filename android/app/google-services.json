@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "479929710033",
+    "firebase_url": "https://newagent-atvrdi.firebaseio.com",
+    "project_id": "newagent-atvrdi",
+    "storage_bucket": "newagent-atvrdi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479929710033:android:87d827d2b648a2faee5cf0",
+        "android_client_info": {
+          "package_name": "com.aksoft.happyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479929710033-bu5g1km61ljg1sinfj9vbh07up1d4nd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aksoft.happyapp",
+            "certificate_hash": "57c1b380c5e2314ce746a095e54f79593b82907a"
+          }
+        },
+        {
+          "client_id": "479929710033-obljhj3dp0emdhm0qrbvj3j6lcft4q1j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-R4lh8ivHipMRiED6F-7m4xOemuFB-ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479929710033-obljhj3dp0emdhm0qrbvj3j6lcft4q1j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
