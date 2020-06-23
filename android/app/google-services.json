@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "479929710033-bu5g1km61ljg1sinfj9vbh07up1d4nd0.apps.googleusercontent.com",
+          "client_id": "479929710033-cueof6t3cctlfu9sutupd4rocun4253a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aksoft.happyapp",
-            "certificate_hash": "57c1b380c5e2314ce746a095e54f79593b82907a"
+            "certificate_hash": "6f340d0266d9ab02ed78685ebe600c2929422372"
           }
         },
         {

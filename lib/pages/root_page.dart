@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:test_chatbot/pages/dialog_flow.dart';
 import 'package:test_chatbot/pages/login_page.dart';
 import 'package:test_chatbot/services/authentication.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:test_chatbot/pages/dialog_flow.dart';
 enum AuthStatus {
   NOT_DETERMINED,
   NOT_LOGGED_IN,
   LOGGED_IN,
 }
-  String fname;
-  String fimageUrl;
-  String femail;
 
 class RootPage extends StatefulWidget {
   RootPage({this.auth});
 
   final BaseAuth auth;
-
-      
 
   @override
   State<StatefulWidget> createState() => new _RootPageState();
@@ -33,66 +26,30 @@ class _RootPageState extends State<RootPage> {
   void initState() {
     super.initState();
     widget.auth.getCurrentUser().then((user) {
-
+      setState(() {
         if (user != null) {
           _userId = user?.uid;
-         final firestoreInstance = Firestore.instance;
-         firestoreInstance.collection("users").document(user.uid).get().then((value){
-    
- 
-       print(fimageUrl);
-       print(fname);
-       print(femail);
-       fimageUrl = value.data["image"];
-       fname =  value.data["name"];
-       femail =  value.data["email"];
+           
 
-      
-      
-    });
- 
-         
         }
-        
-               setState((){
-                 authStatus =
+        authStatus =
             user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
-             });       
+      });
     });
-    
   }
 
   void loginCallback() {
     widget.auth.getCurrentUser().then((user) {
-      
+      setState(() {
         _userId = user.uid.toString();
-
-         final firestoreInstance = Firestore.instance;
-         firestoreInstance.collection("users").document(user.uid).get().then((value){
-    
-       print(fimageUrl);
-       print(fname);
-       print(femail);
-
-
-    // if(fname!=null && femail !=null && fimageUrl!=null){
-
-    //   setState(() {
-
-    //   fimageUrl = value.data["image"];
-    //   fname =  value.data["name"];
-    //   femail =  value.data["email"];
-    //   authStatus = AuthStatus.LOGGED_IN;
-
-
-    // });
-
-    // }
-    });
-    
+        
+        
+      });
       
     });
-
+    setState(() {
+      authStatus = AuthStatus.LOGGED_IN;
+    });
   }
 
   void logoutCallback() {
@@ -106,6 +63,7 @@ class _RootPageState extends State<RootPage> {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
+        padding: EdgeInsets.fromLTRB(0, 23, 0, 0),
         child: CircularProgressIndicator(),
       ),
     );

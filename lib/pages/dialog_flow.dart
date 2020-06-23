@@ -1,18 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:test_chatbot/pages/facts_message.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
-import 'package:test_chatbot/pages/root_page.dart';
 import 'package:flutter/rendering.dart';
+import 'package:test_chatbot/pages/root_page.dart';
 import 'package:test_chatbot/services/authentication.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:test_chatbot/pages/about_us.dart';
 
 
 
 
 class FlutterFactsChatBot extends StatefulWidget {
-  FlutterFactsChatBot({Key key,this.auth, this.userId,this.logoutCallback,  this.title}) : super(key: key);
+  FlutterFactsChatBot({Key key,this.auth,this.userId,this.logoutCallback,  this.title}) : super(key: key);
  
   final String title;
   final BaseAuth auth;
+
   final VoidCallback logoutCallback;
   final String userId;
   
@@ -23,6 +27,9 @@ class FlutterFactsChatBot extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _FlutterFactsChatBotState();
 }
+   String femail = "Loading";
+   String fname = "Loading";
+  String fimageUrl = "Loadding";
 
 class _FlutterFactsChatBotState extends State<FlutterFactsChatBot>{
   final List<Facts> messageList = <Facts>[];
@@ -30,14 +37,38 @@ class _FlutterFactsChatBotState extends State<FlutterFactsChatBot>{
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   
   final TextEditingController _textController = new TextEditingController();
-
+   AuthStatus authStatus = AuthStatus.NOT_DETERMINED;
 
  @override
   void initState() {
     super.initState();
+    widget.auth.getCurrentUser().then((user) {
+      
+       if(user!= null){
+      final firestoreInstance = Firestore.instance;
+      firestoreInstance.collection("users").document(user.uid).get().then((value){
+      String rfimageUrl = value.data["image"];
+      String rfemail = value.data["email"]; 
+      String rfname = value.data["name"];
+       if(rfimageUrl!= null && rfemail != null && rfname != null){
+          setState(() {
+       fimageUrl = rfimageUrl;
+       femail = rfemail;
+       fname = rfname;
+           });
+        
+       }
+   
+     
+      
+      print(user.uid);
+     
+      });
+       }
+    });
   }
 
-     signOut() async {
+signOut() async {
     try {
       await widget.auth.signOut();
       widget.logoutCallback();
@@ -45,6 +76,14 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
       print(e);
     }
   }
+  launchprivacy() async {
+  const url = 'https://sites.google.com/view/happybot-kp/privacy-policy';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
   void agentResponse(query) async {
     _textController.clear();
     AuthGoogle authGoogle =
@@ -59,6 +98,7 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
       type: false,
     );
     setState(() {
+      
       messageList.insert(0, message);
     });
   }
@@ -149,10 +189,18 @@ final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
      ),
           ListTile(
        title: Text("About Us"),
+       onTap: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => 
+       About()
+       
+       )
+       );
+       }
        
      ),
           ListTile(
        title: Text("Privacy Policy"),
+       onTap: launchprivacy,
      ),
      ListTile(
        title: Text("Signout"),
